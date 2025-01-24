@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 namespace Heos.API.Models.HEOS;
 
 [JsonConverter(typeof(JsonPathConverter))]
-public abstract class HeosResponse
+public class HeosResponse
 {
-    [JsonProperty("heos.payload")]
+    [JsonProperty("heos.command")]
     public required string Command { get; set; }
     
     [JsonProperty("heos.result")]

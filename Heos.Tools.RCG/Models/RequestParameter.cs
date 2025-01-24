@@ -3,7 +3,6 @@
 public class RequestParameter
 {
     public string Name { get; init; }
-    public string Value { get; init; }
     public string Description { get; init; }
     private readonly List<string> _allowedValues;
 
@@ -13,4 +12,6 @@ public class RequestParameter
         Description = description;
         _allowedValues = allowedValues.Split(",").ToList();
     }
+
+    public IEnumerable<string> GetAllowedValues => _allowedValues;
 }
