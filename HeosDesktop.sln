@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heos.API", "Heos.API\Heos.API.csproj", "{FA903FAF-12E4-4505-9CBA-8B848C31ED66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heos.Tests", "Heos.Tests\Heos.Tests.csproj", "{0B0048D1-F66E-4620-B655-D90BBBAB020F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heos.Tools.RCG", "Heos.Tools.RCG\Heos.Tools.RCG.csproj", "{DEA2F42E-1D60-43E2-B5EF-27AE002FF133}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{FA903FAF-12E4-4505-9CBA-8B848C31ED66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA903FAF-12E4-4505-9CBA-8B848C31ED66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA903FAF-12E4-4505-9CBA-8B848C31ED66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B0048D1-F66E-4620-B655-D90BBBAB020F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B0048D1-F66E-4620-B655-D90BBBAB020F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B0048D1-F66E-4620-B655-D90BBBAB020F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B0048D1-F66E-4620-B655-D90BBBAB020F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEA2F42E-1D60-43E2-B5EF-27AE002FF133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEA2F42E-1D60-43E2-B5EF-27AE002FF133}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEA2F42E-1D60-43E2-B5EF-27AE002FF133}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEA2F42E-1D60-43E2-B5EF-27AE002FF133}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
