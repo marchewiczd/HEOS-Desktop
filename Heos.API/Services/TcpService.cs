@@ -23,8 +23,8 @@ public class TcpService : IDisposable
         return ReceiveResponse();
     }
     
-    public TResponse Send<TRequest, TResponse>(TRequest request) 
-        where TRequest : HeosRequest 
+    public TResponse Send<TRequest, TResponse>(TRequest request)
+        where TRequest : HeosRequest
         where TResponse : HeosResponse
     {
         SendMessage(request);
@@ -49,12 +49,11 @@ public class TcpService : IDisposable
 
     private void SendMessage<TRequest>(TRequest request)
         where TRequest : HeosRequest =>
-        SendMessage(request.Command);
+        SendMessage(request.Build());
 
     private TResponse ReceiveResponse<TResponse>()
         where TResponse : HeosResponse
-    { 
-        //TODO: deserialization is currently not working
+    {
         var response = JsonConvert.DeserializeObject<TResponse>(ReceiveResponse());
         ArgumentNullException.ThrowIfNull(response);
 
