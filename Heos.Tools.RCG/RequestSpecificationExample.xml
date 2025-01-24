@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+    <Group name="system">
+        <Command name="register_for_change_events" description="">
+            <Parameter name="enable" description="Register or unregister for change events." allowed-values="on,off"/>
+        </Command>
+    </Group>
+    <Group name="player">
+        <Command name="get_players" description="" />
+        <Command name="get_player_info" description="">
+            <Parameter name="pid" description="Player id."/>
+        </Command>
+    </Group>
+    <Group name="group">
+        <Command name="get_groups" description="" />
+    </Group>
+    <Group name="browse">
+        <Command name="get_music_sources" description="" />
+    </Group>
+</Root>
+
+<!--
+Example command tree:
+<Root>
+    // command and group are the same nodes under different names for ease of use
+    <Group name="<string_no_spaces>" // required
+           description="<string>" // optional, defaults to null
+           status="disabled/enabled"> // defaults to enabled - NOT IMPLEMENTED
+        <Command name="<string_no_spaces>" // required
+                 description="<string>" // optional, defaults to null
+                 status="disabled/enabled"> // defaults to enabled - NOT IMPLEMENTED
+            <Parameter // commands can't be at the same level as parameters, it is assumed that is the lowest command tree can go
+                name="<string_no_spaces>" // required
+                description="<string>"  // optional, defaults to null
+                allowed-values="<comma,delimited,values,no,spaces>" // optional, if not specified all values allowed  - NOT IMPLEMENTED
+                optional="true/false"/>  // defaults to false - NOT IMPLEMENTED
+        </Command>
+    </Group>
+    <Group name="" description="">
+        <Command name="" description="" status="" /> // commands can have no arguments
+        <Command name="" description="" status="">
+            <Parameter name="" description=""/>
+        </Command>
+    </Group>
+</Root>
+
+-->
