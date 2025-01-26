@@ -6,7 +6,7 @@ var path = args[0];
 var @namespace = args[1];
 var xmlSpecPath = args[2];
 
-var parser = new XmlParser(xmlSpecPath, 5);
+var parser = new SpecParser(xmlSpecPath, 5);
 var generator = new ClassGenerator();
 
 var requests = parser.Parse();

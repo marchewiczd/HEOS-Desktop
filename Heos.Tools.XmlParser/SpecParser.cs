@@ -6,14 +6,14 @@ using Heos.Tools.XmlParser.Models;
 
 namespace Heos.Tools.XmlParser;
 
-public class XmlParser
+public class SpecParser
 {
     private readonly List<Request> _requests = [];
     private readonly int _maxDepth;
     private readonly string _filePath;
-    private XmlDocument _document;
+    private XmlDocument? _document;
 
-    public XmlParser(string filePath, int maxDepth = 5)
+    public SpecParser(string filePath, int maxDepth = 5)
     {
         _filePath = filePath;
         _maxDepth = maxDepth;
@@ -36,7 +36,7 @@ public class XmlParser
 
     public SpecificationInfo GetSpecificationInfo()
     {
-        var rootNode = _document.DocumentElement;
+        var rootNode = _document?.DocumentElement;
         ArgumentNullException.ThrowIfNull(rootNode);
         (Version? version, Uri? uri) info = (null, null);
 
@@ -72,7 +72,10 @@ public class XmlParser
         {
             foreach (XmlNode childNode in node.ChildNodes)
             {
-                RunParser(childNode, endpoint, ++depth);
+                RunParser(childNode, endpoint, depth++);
+
+                //TODO: fix depth count
+                depth--;
             }
         }
 
@@ -103,15 +106,21 @@ public class XmlParser
 
     private XmlDocument LoadXml(string path)
     {
+        var readerSettings = new XmlReaderSettings();
+        readerSettings.IgnoreComments = true;
+
+        var reader = XmlReader.Create(path, readerSettings);
         var doc = new XmlDocument();
-        doc.Load(path);
+
+        doc.Load(reader);
+        reader.Dispose();
 
         return doc;
     }
 
     private XmlNodeList GetRootChildrenNodes()
     {
-        var nodes = _document.DocumentElement?.ChildNodes;
+        var nodes = _document?.DocumentElement?.ChildNodes;
         ArgumentNullException.ThrowIfNull(nodes);
 
         return nodes;
