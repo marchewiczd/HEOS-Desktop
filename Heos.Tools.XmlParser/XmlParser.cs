@@ -13,13 +13,11 @@ public class XmlParser
     private readonly string _filePath;
     private XmlDocument _document;
 
-    public XmlParser(string filePath, int maxDepth)
+    public XmlParser(string filePath, int maxDepth = 5)
     {
         _filePath = filePath;
         _maxDepth = maxDepth;
     }
-
-    public XmlParser() : this("RequestSpecification.xml", 5) { }
 
     public IEnumerable<Request> Parse()
     {
@@ -42,13 +40,13 @@ public class XmlParser
         ArgumentNullException.ThrowIfNull(rootNode);
         (Version? version, Uri? uri) info = (null, null);
 
-        var version = rootNode.GetAttributeValue("version");
+        var version = rootNode.GetAttributeValue(AttributeName.Version);
         if (version is not null)
         {
             info.version = new Version(version);
         }
 
-        var uri = rootNode.GetAttributeValue("version");
+        var uri = rootNode.GetAttributeValue(AttributeName.Uri);
         if (uri is not null)
         {
             info.uri = new Uri(uri);
@@ -66,7 +64,7 @@ public class XmlParser
         if (depth > _maxDepth)
             throw new ConstraintException($"Maximum command depth of {_maxDepth} exceeded");
 
-        var nodeNameAttr = node.GetAttributeValue("name");
+        var nodeNameAttr = node.GetAttributeValue(AttributeName.Name);
         ArgumentNullException.ThrowIfNull(nodeNameAttr);
         endpoint += $"/{nodeNameAttr.Trim()}";
 
@@ -80,16 +78,16 @@ public class XmlParser
 
         if (node.HasChildNodes && ChildIsParameter(node))
         {
-            var request = new Request(endpoint, node.GetAttributeValue("description") ?? "");
+            var request = new Request(endpoint, node.GetAttributeValue(AttributeName.Description) ?? "");
 
             foreach (XmlNode childNode in node.ChildNodes)
             {
-                var parameterName = childNode.GetAttributeValue("name");
+                var parameterName = childNode.GetAttributeValue(AttributeName.Name);
                 ArgumentNullException.ThrowIfNull(parameterName);
 
                 request.AddParameter(new RequestParameter(
                     parameterName.Trim(),
-                    childNode.GetAttributeValue("description") ?? "",
+                    childNode.GetAttributeValue(AttributeName.Description) ?? "",
                     childNode.GetAttributeValue("allowed-values")?.Trim() ?? ""));
             }
 
@@ -99,7 +97,7 @@ public class XmlParser
 
         if (!node.HasChildNodes)
         {
-            _requests.Add(new Request(endpoint, node.GetAttributeValue("description") ?? ""));
+            _requests.Add(new Request(endpoint, node.GetAttributeValue(AttributeName.Description) ?? ""));
         }
     }
 
