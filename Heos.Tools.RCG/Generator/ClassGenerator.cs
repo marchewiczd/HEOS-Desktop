@@ -1,8 +1,6 @@
-﻿using System.Reflection;
-using Heos.Tools.RCG.Constants;
+﻿using Heos.Tools.RCG.Constants;
 using Heos.Tools.RCG.Extensions;
-using Heos.Tools.RCG.Models;
-using Microsoft.CodeAnalysis;
+using Heos.Tools.XmlParser.Models;
 
 namespace Heos.Tools.RCG.Generator;
 

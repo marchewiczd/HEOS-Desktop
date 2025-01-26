@@ -1,5 +1,5 @@
 ﻿using Heos.Tools.RCG.Generator;
-using Heos.Tools.RCG.Helpers;
+using Heos.Tools.XmlParser;
 
 const string path = @"C:\Users\march\source\HeosDesktop\Heos.API\Models\HEOS";
 const string @namespace = "Heos.API.Models.HEOS";

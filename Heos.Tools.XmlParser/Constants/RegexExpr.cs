@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Heos.Tools.RCG.Constants;
+namespace Heos.Tools.XmlParser.Constants;
 
 public partial class RegexExpr
 {

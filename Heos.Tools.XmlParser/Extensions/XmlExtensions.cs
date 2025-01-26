@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace Heos.Tools.RCG.Extensions;
+namespace Heos.Tools.XmlParser.Extensions;
 
 public static class XmlExtensions
 {

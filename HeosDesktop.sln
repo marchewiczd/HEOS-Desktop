@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heos.Tests", "Heos.Tests\He
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heos.Tools.RCG", "Heos.Tools.RCG\Heos.Tools.RCG.csproj", "{DEA2F42E-1D60-43E2-B5EF-27AE002FF133}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heos.Tools.XmlParser", "Heos.Tools.XmlParser\Heos.Tools.XmlParser.csproj", "{322A3032-869E-4B77-B235-4B578ACFD4FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{DEA2F42E-1D60-43E2-B5EF-27AE002FF133}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEA2F42E-1D60-43E2-B5EF-27AE002FF133}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEA2F42E-1D60-43E2-B5EF-27AE002FF133}.Release|Any CPU.Build.0 = Release|Any CPU
+		{322A3032-869E-4B77-B235-4B578ACFD4FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{322A3032-869E-4B77-B235-4B578ACFD4FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{322A3032-869E-4B77-B235-4B578ACFD4FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{322A3032-869E-4B77-B235-4B578ACFD4FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

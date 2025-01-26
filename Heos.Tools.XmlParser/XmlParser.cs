@@ -1,16 +1,17 @@
 ﻿using System.Data;
 using System.Xml;
-using Heos.Tools.RCG.Constants;
-using Heos.Tools.RCG.Extensions;
-using Heos.Tools.RCG.Models;
+using Heos.Tools.XmlParser.Constants;
+using Heos.Tools.XmlParser.Extensions;
+using Heos.Tools.XmlParser.Models;
 
-namespace Heos.Tools.RCG.Helpers;
+namespace Heos.Tools.XmlParser;
 
 public class XmlParser
 {
-    private readonly List<Request> _requests = new();
-    private int _maxDepth;
-    private string _filePath;
+    private readonly List<Request> _requests = [];
+    private readonly int _maxDepth;
+    private readonly string _filePath;
+    private XmlDocument _document;
 
     public XmlParser(string filePath, int maxDepth)
     {
@@ -23,8 +24,9 @@ public class XmlParser
     public IEnumerable<Request> Parse()
     {
         _requests.Clear();
-        var xml = LoadXml(_filePath);
-        var childrenOfRoot = GetRootChildrenNodes(xml);
+        _document = LoadXml(_filePath);
+        GetSpecificationInfo();
+        var childrenOfRoot = GetRootChildrenNodes();
 
         foreach (XmlNode node in childrenOfRoot)
         {
@@ -32,6 +34,31 @@ public class XmlParser
         }
 
         return _requests;
+    }
+
+    public SpecificationInfo GetSpecificationInfo()
+    {
+        var rootNode = _document.DocumentElement;
+        ArgumentNullException.ThrowIfNull(rootNode);
+        (Version? version, Uri? uri) info = (null, null);
+
+        var version = rootNode.GetAttributeValue("version");
+        if (version is not null)
+        {
+            info.version = new Version(version);
+        }
+
+        var uri = rootNode.GetAttributeValue("version");
+        if (uri is not null)
+        {
+            info.uri = new Uri(uri);
+        }
+
+        return new SpecificationInfo
+        {
+            Url = info.uri,
+            Version = info.version
+        };
     }
 
     private void RunParser(XmlNode node, string endpoint = "", int depth = 1)
@@ -84,9 +111,9 @@ public class XmlParser
         return doc;
     }
 
-    private XmlNodeList GetRootChildrenNodes(XmlDocument document)
+    private XmlNodeList GetRootChildrenNodes()
     {
-        var nodes = document.DocumentElement?.ChildNodes;
+        var nodes = _document.DocumentElement?.ChildNodes;
         ArgumentNullException.ThrowIfNull(nodes);
 
         return nodes;

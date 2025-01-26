@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Heos.Tools.RCG.Models;
+﻿namespace Heos.Tools.XmlParser.Models;
 
 public class Request
 {
