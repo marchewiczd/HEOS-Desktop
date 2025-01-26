@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Specification url="https://rn.dmglobal.com/usmodel/HEOS_CLI_ProtocolSpecification-Version-1.17.pdf" version="1.17">
+<Specification uri="https://rn.dmglobal.com/usmodel/HEOS_CLI_ProtocolSpecification-Version-1.17.pdf" version="1.17">
     <Group name="system">
         <Command name="register_for_change_events">
             <Parameter name="enable" description="Register or unregister for change events." allowed-values="on,off"/>

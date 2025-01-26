@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Specification url="google.com" version="1.0.0.0">
+<Specification uri="google.com" version="1.0.0.0">
     <Group name="system">
         <Command name="register_for_change_events" description="">
             <Parameter name="enable" description="Register or unregister for change events." allowed-values="on,off"/>
