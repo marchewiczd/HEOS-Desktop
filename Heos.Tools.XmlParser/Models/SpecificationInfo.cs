@@ -3,5 +3,5 @@
 public record SpecificationInfo
 {
     public Version? Version { get; init; }
-    public Uri? Url { get; init; }
+    public Uri? Uri { get; init; }
 }

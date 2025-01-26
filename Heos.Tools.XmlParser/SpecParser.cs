@@ -54,7 +54,7 @@ public class SpecParser
 
         return new SpecificationInfo
         {
-            Url = info.uri,
+            Uri = info.uri,
             Version = info.version
         };
     }
