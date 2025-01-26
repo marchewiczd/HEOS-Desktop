@@ -1,4 +1,4 @@
-﻿namespace Heos.Tools.RCG.Extensions;
+﻿namespace Heos.Tools.ClassGenerator.Extensions;
 
 public static class StringExtensions
 {

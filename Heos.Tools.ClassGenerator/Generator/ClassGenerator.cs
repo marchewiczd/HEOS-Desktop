@@ -1,17 +1,18 @@
-﻿using System.Reflection;
-using Heos.Tools.RCG.Constants;
-using Heos.Tools.RCG.Extensions;
-using Heos.Tools.RCG.Models;
-using Microsoft.CodeAnalysis;
+﻿using Heos.Tools.ClassGenerator.Constants;
+using Heos.Tools.ClassGenerator.Extensions;
+using Heos.Tools.XmlParser.Models;
 
-namespace Heos.Tools.RCG.Generator;
+namespace Heos.Tools.ClassGenerator.Generator;
 
 public class ClassGenerator
 {
-
-    public async Task GenerateFromRequests(string requestDirPath, string rootNamespace, IEnumerable<Request> requests)
+    public async Task Generate(
+        string requestDirPath,
+        string rootNamespace,
+        IEnumerable<Request> requests,
+        SpecificationInfo? specificationInfo = null)
     {
-        var classDescriptions = TransformAll(rootNamespace, requests);
+        var classDescriptions = TransformAll(rootNamespace, requests, specificationInfo);
 
         foreach (var description in classDescriptions)
         {
@@ -32,10 +33,16 @@ public class ClassGenerator
         await File.WriteAllTextAsync(path, description.Content);
     }
 
-    private IEnumerable<ClassDescription> TransformAll(string rootNamespace, IEnumerable<Request> requests) =>
-        requests.Select(request => TransformRequestToClassDescription(rootNamespace, request));
+    private IEnumerable<ClassDescription> TransformAll(
+        string rootNamespace,
+        IEnumerable<Request> requests,
+        SpecificationInfo? specificationInfo = null) =>
+        requests.Select(request => TransformRequestToClassDescription(rootNamespace, request, specificationInfo));
 
-    private ClassDescription TransformRequestToClassDescription(string rootNamespace, Request request)
+    private ClassDescription TransformRequestToClassDescription(
+        string rootNamespace,
+        Request request,
+        SpecificationInfo? specificationInfo = null)
     {
         var description = new ClassDescription
         {
@@ -50,7 +57,8 @@ public class ClassGenerator
             .Replace("{3}", request.Endpoint[1..])
             .Replace("{4}", GetInitParameters(request.GetParameters()))
             .Replace("{5}", GetType().Assembly.GetName().Name)
-            .Replace("{6}", GetType().Assembly.GetName().Version?.ToString(3));
+            .Replace("{6}", GetType().Assembly.GetName().Version?.ToString(3))
+            .Replace("{7}", GetSpecificationInfo(specificationInfo));
 
         return description;
     }
@@ -120,5 +128,17 @@ public class ClassGenerator
         }
 
         return endpoint.Substring(1, endpoint.LastIndexOf('/') - 1).FirstCharToUpper();
+    }
+
+    private string GetSpecificationInfo(SpecificationInfo? specificationInfo)
+    {
+        if (specificationInfo is null)
+        {
+            return string.Empty;
+        }
+
+        return $"\n// " +
+               $"\n// Based on specification version: {specificationInfo.Version}" +
+               $"\n// Specification address: {specificationInfo.Uri}";
     }
 }
