@@ -3,15 +3,6 @@ using Newtonsoft.Json;
 
 namespace Heos.API.Models.HEOS.Player;
 
-public class GetPlayersRequest : HeosRequest
-{
-    public GetPlayersRequest()
-    {
-        Command = "player/get_players";
-        Parameters = new();
-    }
-}
-
 [JsonConverter(typeof(JsonPathConverter))]
 public class GetPlayersResponse : HeosResponse
 {

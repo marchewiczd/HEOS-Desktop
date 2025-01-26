@@ -1,4 +1,4 @@
-﻿namespace Heos.Tools.RCG.Constants;
+﻿namespace Heos.Tools.ClassGenerator.Constants;
 
 public class ClassConstants
 {

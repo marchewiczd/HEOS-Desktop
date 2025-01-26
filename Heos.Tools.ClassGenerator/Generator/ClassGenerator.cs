@@ -1,8 +1,8 @@
-﻿using Heos.Tools.RCG.Constants;
-using Heos.Tools.RCG.Extensions;
+﻿using Heos.Tools.ClassGenerator.Constants;
+using Heos.Tools.ClassGenerator.Extensions;
 using Heos.Tools.XmlParser.Models;
 
-namespace Heos.Tools.RCG.Generator;
+namespace Heos.Tools.ClassGenerator.Generator;
 
 public class ClassGenerator
 {

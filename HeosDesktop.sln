@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heos.API", "Heos.API\Heos.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heos.Tests", "Heos.Tests\Heos.Tests.csproj", "{0B0048D1-F66E-4620-B655-D90BBBAB020F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heos.Tools.RCG", "Heos.Tools.RCG\Heos.Tools.RCG.csproj", "{DEA2F42E-1D60-43E2-B5EF-27AE002FF133}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heos.Tools.ClassGenerator", "Heos.Tools.ClassGenerator\Heos.Tools.ClassGenerator.csproj", "{DEA2F42E-1D60-43E2-B5EF-27AE002FF133}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heos.Tools.XmlParser", "Heos.Tools.XmlParser\Heos.Tools.XmlParser.csproj", "{322A3032-869E-4B77-B235-4B578ACFD4FB}"
 EndProject

@@ -1,4 +1,4 @@
-﻿namespace Heos.Tools.RCG.Generator;
+﻿namespace Heos.Tools.ClassGenerator.Generator;
 
 public class ClassDescription
 {

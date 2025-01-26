@@ -1,4 +1,4 @@
-﻿using Heos.Tools.RCG.Generator;
+﻿using Heos.Tools.ClassGenerator.Generator;
 using Heos.Tools.XmlParser;
 
 
