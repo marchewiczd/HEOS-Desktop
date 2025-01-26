@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Specification url="https://rn.dmglobal.com/usmodel/HEOS_CLI_ProtocolSpecification-Version-1.17.pdf" version="1.17">
+    <Group name="system">
+        <Command name="register_for_change_events">
+            <Parameter name="enable" description="Register or unregister for change events." allowed-values="on,off"/>
+        </Command>
+        <Command name="check_account" description="This command returns current user name in its message field if the user is currently singed in."/>
+        <Command name="sign_in">
+            <Parameter name="un" description="HEOS account username"/>
+            <Parameter name="pw" description="HEOS account password"/>
+        </Command>
+        <Command name="sign_out"/>
+        <Command name="heart_beat"/>
+        <Command name="reboot" description="Using this command controllers can reboot HEOS device. This command can only be used to reboot the HEOS device to which the controller is connected through CLI port."/>
+        <Command name="prettify_json_response" description="Helper command to prettify JSON response when user is running CLI controller through telnet">
+            <Parameter name="enable" description="Enable or disable prettification of JSON response." allowed-values="on,off"/>
+        </Command>
+    </Group>
+    <Group name="player">
+        <Command name="get_players"/>
+        <Command name="get_player_info">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+        </Command>
+        <Command name="get_play_state">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+        </Command>
+        <Command name="set_play_state">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+            <Parameter name="state" description="Player play state" allowed-values="play,pause,stop"/>
+        </Command>
+        <Command name="get_now_playing_media">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+        </Command>
+        <Command name="get_volume">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+        </Command>
+        <Command name="set_volume">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+            <Parameter name="level" description="Player volume level" allowed-values="range(0,100)"/>
+        </Command>
+        <Command name="volume_up">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+            <Parameter name="step" description="Player volume step level" allowed-values="range(1,10)"/>
+        </Command>
+        <Command name="volume_down">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+            <Parameter name="step" description="Player volume step level" allowed-values="range(1,10)"/>
+        </Command>
+        <Command name="get_mute">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+        </Command>
+        <Command name="set_mute">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+            <Parameter name="state" description="Player mute state" allowed-values="on,off"/>
+        </Command>
+        <Command name="toggle_mute">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+        </Command>
+        <Command name="get_play_mode">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+        </Command>
+        <Command name="set_play_mode">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+            <Parameter name="repeat" description="Player repeat state" allowed-values="on_all,on_one,off"/>
+            <Parameter name="shuffle" description="Player shuffle state" allowed-values="on,off"/>
+        </Command>
+        <Command name="get_queue">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+            <Parameter name="range" description="Range is start and end record index to return. Range parameter is optional. Omitting range parameter returns all records up to a maximum of 100 records per response."/>
+        </Command>
+        <Command name="play_queue">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+            <Parameter name="qid" description="Queue id for song returned by 'get_queue' command"/>
+        </Command>
+        <Command name="remove_from_queue">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+            <Parameter name="qid" description="Queue id for song returned by 'get_queue' command"/>
+        </Command>
+        <Command name="save_queue">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+            <Parameter name="name" description="String for new playlist name limited to 128 unicode characters"/>
+        </Command>
+        <Command name="clear_queue">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+        </Command>
+        <Command name="move_queue_item">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+            <Parameter name="sqid" description="List of comma separated queue_id's where each queue id for song is returned by 'get_queue' command"/>
+            <Parameter name="dqid" description="User select this value as the destination of contents which is indicated in sqid."/>
+        </Command>
+        <Command name="play_next">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+        </Command>
+        <Command name="play_previous">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+        </Command>
+        <Command name="set_quickselect">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+            <Parameter name="id" description="Quick select Id to which currently playing source needs to be stored" allowed-values="range(1,6)"/>
+        </Command>
+        <Command name="play_quickselect">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+            <Parameter name="id" description="Quick select Id whose source needs to be played"/>
+        </Command>
+        <Command name="get_quickselects">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+            <Parameter name="id" description="Optional Id for which information is required. By default information regarding all quick selects will be returned" optional="true"/>
+        </Command>
+        <Command name="check_update">
+            <Parameter name="pid" description="Player id returned by 'get_players' or 'get_groups' command"/>
+        </Command>
+    </Group>
+    <Group name="group">
+        <Command name="get_groups"/>
+        <Command name="get_group_info">
+            <Parameter name="gid" description="Group id returned by 'get_groups' command"/>
+        </Command>
+        <Command name="set_group">
+            <Parameter name="pid" description="List of comma separated player_id's where each player id is returned by 'get_players' or 'get_groups' command; first player_id in list is group leader"/>
+        </Command>
+        <Command name="get_volume">
+            <Parameter name="gid" description="Group id returned by 'get_groups' command"/>
+        </Command>
+        <Command name="set_volume">
+            <Parameter name="gid" description="Group id returned by 'get_groups' command"/>
+            <Parameter name="level" description="Group volume level" allowed-values="range(0,100)"/>
+        </Command>
+        <Command name="volume_up">
+            <Parameter name="gid" description="Group id returned by 'get_groups' command"/>
+            <Parameter name="step" description="Group volume step level" allowed-values="range(0,10)"/>
+        </Command>
+        <Command name="volume_down">
+            <Parameter name="gid" description="Group id returned by 'get_groups' command"/>
+            <Parameter name="step" description="Group volume step level" allowed-values="range(0,10)"/>
+        </Command>
+        <Command name="get_mute">
+            <Parameter name="gid" description="Group id returned by 'get_groups' command"/>
+        </Command>
+        <Command name="set_mute">
+            <Parameter name="gid" description="Group id returned by 'get_groups' command"/>
+            <Parameter name="state" description="Group mute state" allowed-values="on,off"/>
+        </Command>
+        <Command name="toggle_mute">
+            <Parameter name="gid" description="Group id returned by 'get_groups' command"/>
+        </Command>
+    </Group>
+    <!-- <Group name="browse">
+    </Group> -->
+</Specification>
