@@ -6,4 +6,5 @@ public static class AttributeName
     public const string Uri = "uri";
     public const string Name = "name";
     public const string Description = "description";
+    public const string ResponseType = "type";
 }
