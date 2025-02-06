@@ -8,6 +8,7 @@
         <PublishAot>false</PublishAot>
         <InvariantGlobalization>true</InvariantGlobalization>
         <AssemblyName>heos</AssemblyName>
+        <AssemblyVersion>0.1.0</AssemblyVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
