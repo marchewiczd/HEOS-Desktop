@@ -133,6 +133,12 @@ public class CliHandler
                 break;
 
             case "get":
+                if (args.Count < 2)
+                {
+                    WriteLine($"Incorrect config key.");
+                    return;
+                }
+
                 var value = Config.Get(args[1]);
                 if (value is null)
                 {

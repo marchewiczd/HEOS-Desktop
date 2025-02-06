@@ -12,15 +12,15 @@ public static class CliArgumentMapper
 
         cliArguments.Command = args[0];
 
-        for(var i = 1; i < args.Length; i++)
+        for (var i = 1; i < args.Length; i++)
         {
-            if (RegexHelper.Ipv4().Match(args[i]).Success)
+            if (RegexHelper.Ipv4().Match(args[i]).Success && !IsConfigCommand(cliArguments.Command))
             {
                 cliArguments.Host = args[i];
                 continue;
             }
 
-            if (RegexHelper.Pid().Match(args[i]).Success)
+            if (RegexHelper.Pid().Match(args[i]).Success && !IsConfigCommand(cliArguments.Command))
             {
                 cliArguments.Pid = args[i];
                 continue;
@@ -38,5 +38,10 @@ public static class CliArgumentMapper
 
         cliArguments.Pid = string.IsNullOrEmpty(arguments.Pid) ? cliArguments.Pid : arguments.Pid;
         cliArguments.Host = string.IsNullOrEmpty(arguments.Host) ? cliArguments.Host : arguments.Host;
+    }
+
+    private static bool IsConfigCommand(string command)
+    {
+        return command.Equals("config");
     }
 }

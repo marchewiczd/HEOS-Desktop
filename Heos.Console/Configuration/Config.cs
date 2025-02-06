@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Heos.Console.Extensions;
+﻿using Heos.Console.Extensions;
 using Heos.Console.Helpers;
 using Heos.Console.Model;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +13,7 @@ public static class Config
 
     public static void Load(CliArguments cliArguments)
     {
-        var builder = new ConfigurationBuilder().AddJsonFile(FileName, false, true);
+        var builder = new ConfigurationBuilder().AddJsonFile(GetFilePath(), false, true);
         _configuration = builder.Build();
         cliArguments.Map(_configuration);
     }
@@ -78,6 +77,14 @@ public static class Config
     {
         var configDictionary = _configuration?.AsEnumerable().ToDictionary();
         var json = JsonConvert.SerializeObject(configDictionary);
-        File.WriteAllText(FileName, json);
+        File.WriteAllText(GetFilePath(), json);
+    }
+
+    private static string GetFilePath()
+    {
+        var executableDirectory = Path.GetDirectoryName(Environment.ProcessPath);
+        ArgumentNullException.ThrowIfNull(executableDirectory);
+
+        return Path.Combine(executableDirectory, FileName);
     }
 }
