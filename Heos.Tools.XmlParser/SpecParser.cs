@@ -8,7 +8,7 @@ namespace Heos.Tools.XmlParser;
 
 public class SpecParser
 {
-    private readonly List<Request> _requests = [];
+    private readonly List<Command> _requests = [];
     private readonly int _maxDepth;
     private readonly string _filePath;
     private XmlDocument? _document;
@@ -19,7 +19,7 @@ public class SpecParser
         _maxDepth = maxDepth;
     }
 
-    public IEnumerable<Request> Parse()
+    public IEnumerable<Command> Parse()
     {
         _requests.Clear();
         _document = LoadXml(_filePath);
@@ -68,39 +68,60 @@ public class SpecParser
         ArgumentNullException.ThrowIfNull(nodeNameAttr);
         endpoint += $"/{nodeNameAttr.Trim()}";
 
-        if (node.HasChildNodes && ChildIsCommand(node))
+        if (node.HasChildNodes)
         {
             foreach (XmlNode childNode in node.ChildNodes)
             {
-                RunParser(childNode, endpoint, depth++);
+                if (IsCommand(childNode))
+                {
+                    RunParser(childNode, endpoint, depth++);
 
-                //TODO: fix depth count
-                depth--;
+                    //TODO: fix depth count
+                    depth--;
+                }
+
+                if (IsRequest(childNode))
+                {
+                    var request = FindOrNew(endpoint,
+                        node.GetAttributeValue(AttributeName.Description) ?? "");
+
+                    foreach (XmlNode parameterNode in childNode.ChildNodes)
+                    {
+                        var parameterName = parameterNode.GetAttributeValue(AttributeName.Name);
+                        ArgumentNullException.ThrowIfNull(parameterName);
+
+                        request.AddParameter(new RequestParameter(
+                            parameterName.Trim(),
+                            parameterNode.GetAttributeValue(AttributeName.Description) ?? "",
+                            parameterNode.GetAttributeValue("allowed-values")?.Trim() ?? ""));
+                    }
+                }
+
+                if (IsResponse(childNode))
+                {
+                    var request = FindOrNew(endpoint,
+                        node.GetAttributeValue(AttributeName.Description) ?? "");
+
+                    var responseType = childNode.GetAttributeValue(AttributeName.ResponseType);
+                    ArgumentNullException.ThrowIfNull(responseType);
+
+                    request.ResponseType = responseType;
+
+                    foreach (XmlNode responseFieldType in childNode.ChildNodes)
+                    {
+                        var parameterName = responseFieldType.GetAttributeValue(AttributeName.Name);
+                        ArgumentNullException.ThrowIfNull(parameterName);
+
+                        request.AddResponseField(new ResponseField(parameterName.Trim()));
+                    }
+                }
+
             }
-        }
-
-        if (node.HasChildNodes && ChildIsParameter(node))
-        {
-            var request = new Request(endpoint, node.GetAttributeValue(AttributeName.Description) ?? "");
-
-            foreach (XmlNode childNode in node.ChildNodes)
-            {
-                var parameterName = childNode.GetAttributeValue(AttributeName.Name);
-                ArgumentNullException.ThrowIfNull(parameterName);
-
-                request.AddParameter(new RequestParameter(
-                    parameterName.Trim(),
-                    childNode.GetAttributeValue(AttributeName.Description) ?? "",
-                    childNode.GetAttributeValue("allowed-values")?.Trim() ?? ""));
-            }
-
-            _requests.Add(request);
-            return;
         }
 
         if (!node.HasChildNodes)
         {
-            _requests.Add(new Request(endpoint, node.GetAttributeValue(AttributeName.Description) ?? ""));
+            _requests.Add(new Command(endpoint, node.GetAttributeValue(AttributeName.Description) ?? ""));
         }
     }
 
@@ -126,9 +147,26 @@ public class SpecParser
         return nodes;
     }
 
-    private bool ChildIsParameter(XmlNode node) =>
-        RegexExpr.ParameterNodeRegex().Match(node.FirstChild!.Name).Success;
+    private bool IsRequest(XmlNode node) =>
+        RegexExpr.RequestNodeRegex().Match(node.Name).Success;
 
-    private bool ChildIsCommand(XmlNode node) =>
-        RegexExpr.CommandNodeRegex().Match(node.FirstChild!.Name).Success;
+    private bool IsCommand(XmlNode node) =>
+        RegexExpr.CommandNodeRegex().Match(node.Name).Success;
+
+    private bool IsResponse(XmlNode node) =>
+        RegexExpr.ResponseNodeRegex().Match(node.Name).Success;
+
+    private Command FindOrNew(string endpoint, string description)
+    {
+        var result = _requests.FirstOrDefault(x =>
+            x.Endpoint.Equals(endpoint) && x.Description.Equals(description));
+
+        if (result is not null)
+            return result;
+
+        result = new Command(endpoint, description);
+        _requests.Add(result);
+
+        return result;
+    }
 }
