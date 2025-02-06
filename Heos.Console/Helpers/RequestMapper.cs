@@ -1,17 +1,21 @@
 ﻿using System.Reflection;
 using Heos.API.Models.HEOS;
 using Heos.Common.Extensions;
+using Heos.Console.Configuration;
 using Heos.Console.Extensions;
 
 namespace Heos.Console.Helpers;
 
 public class RequestMapper
 {
-    public HeosRequest CreateRequestInstance(string requestName, params string[] parameters)
+    public HeosRequest CreateRequestInstance(string[]? parameters)
     {
+        ArgumentNullException.ThrowIfNull(parameters);
+
+        var requestName = parameters[0];
         var commandName = GetRequestName(requestName);
         var requestType = GetHeosRequestType(commandName);
-        var commandObject = (HeosRequest?)Activator.CreateInstance(requestType, parameters.ToObjectArray());
+        var commandObject = (HeosRequest?)Activator.CreateInstance(requestType, GetCtorParams(parameters, requestType));
 
         ArgumentNullException.ThrowIfNull(commandObject);
 
@@ -36,5 +40,24 @@ public class RequestMapper
     {
         var name = command.Contains('_') ? command.SnakeCaseToPascalCase() : command;
         return $"{name}Request";
+    }
+
+    private int GetPidParameterIndex(Type requestType)
+    {
+        var ctorParams = requestType.GetConstructors().First().GetParameters().ToList();
+        return ctorParams.FindIndex(param => param.Name is not null && param.Name.Equals("pid"));
+    }
+
+    private object[]? GetCtorParams(string[] parameters, Type requestType)
+    {
+        var pidIndex = GetPidParameterIndex(requestType) + 1;
+        if (pidIndex == -1)
+        {
+            return null;
+        }
+
+        Config.TryInject(ref parameters, "pid", pidIndex);
+
+        return parameters[1..].ToObjectArray();
     }
 }

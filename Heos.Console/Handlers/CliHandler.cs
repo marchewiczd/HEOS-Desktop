@@ -1,4 +1,5 @@
 ﻿using Heos.Common.Extensions;
+using Heos.Console.Configuration;
 using Heos.Console.Helpers;
 using static System.Console;
 
@@ -23,8 +24,16 @@ public class CliHandler
             return;
         }
 
+        if (args[0].Equals("config"))
+        {
+            HandleConfig(args[1..]);
+            return;
+        }
+
         HandleCommand(args);
     }
+
+    #region Options
 
     private void HandleOptions(string option)
     {
@@ -39,6 +48,49 @@ public class CliHandler
                 break;
         }
     }
+
+
+
+    #endregion
+
+    #region Help
+
+    private void Help()
+    {
+        PrintHelpIntro();
+        PrintHeosCommands();
+    }
+
+    private void PrintHelpIntro()
+    {
+        WriteLine("""
+                  Usage:
+                    heos [command] [ip] [request parameters]
+                    heos [options]
+                    heos config
+                    
+                  Available options:
+                    --version -v
+                    --help -h
+                    
+                  Config:
+                    get [config]
+                    set [config] [value]
+                    
+                  Available commands:
+                    Discover
+                    Wake
+                  """);
+    }
+
+    private void PrintVersion()
+    {
+        WriteLine(GetType().GetAssemblyVersion());
+    }
+
+    #endregion
+
+    #region HEOS commands
 
     private void HandleCommand(params string[] args)
     {
@@ -58,29 +110,6 @@ public class CliHandler
         }
     }
 
-    private void Help()
-    {
-        PrintHelpIntro();
-        PrintHeosCommands();
-    }
-
-    private void PrintHelpIntro()
-    {
-        WriteLine("""
-                  Usage:
-                    heos [command] [ip] [request parameters]
-                    heos [options]
-                  
-                  Available options:
-                    --version -v
-                    --help -h
-                    
-                  Available commands:
-                    Discover
-                    Wake
-                  """);
-    }
-
     private void PrintHeosCommands()
     {
         foreach (var requestType in _requestMapper.GetAll())
@@ -89,8 +118,35 @@ public class CliHandler
         }
     }
 
-    private void PrintVersion()
+    #endregion
+
+    #region Config
+
+    private void HandleConfig(params string[] args)
     {
-        WriteLine(GetType().GetAssemblyVersion());
+        switch (args[0])
+        {
+            case "set":
+                Config.Set(args[1], args[2]);
+                WriteLine($"{args[1]} was set to {args[2]}");
+                break;
+
+            case "get":
+                var value = Config.Get(args[1]);
+                if (value is null)
+                {
+                    WriteLine($"Config for \"{args[1]}\" not found.");
+                    return;
+                }
+
+                WriteLine(value);
+                break;
+
+            default:
+                WriteLine($"{args[0]} was not recognized.");
+                break;
+        }
     }
+
+    #endregion
 }
