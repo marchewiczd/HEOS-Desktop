@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using Heos.Console.Extensions;
 using Heos.Console.Helpers;
+using Heos.Console.Model;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -9,27 +10,28 @@ namespace Heos.Console.Configuration;
 public static class Config
 {
     private const string FileName = "config";
-    private static IConfiguration? Configuration;
+    private static IConfiguration? _configuration;
 
-    public static void Load()
+    public static void Load(CliArguments cliArguments)
     {
         var builder = new ConfigurationBuilder().AddJsonFile(FileName, false, true);
-        Configuration = builder.Build();
+        _configuration = builder.Build();
+        cliArguments.Map(_configuration);
     }
 
     public static string? Get(string s)
     {
-        return Configuration?[s];
+        return _configuration?[s];
     }
 
     public static void Set(string s, string value)
     {
-        if (Configuration is null)
+        if (_configuration is null)
         {
             return;
         }
 
-        Configuration[s] = value;
+        _configuration[s] = value;
         Save();
     }
 
@@ -74,7 +76,7 @@ public static class Config
 
     private static void Save()
     {
-        var configDictionary = Configuration?.AsEnumerable().ToDictionary();
+        var configDictionary = _configuration?.AsEnumerable().ToDictionary();
         var json = JsonConvert.SerializeObject(configDictionary);
         File.WriteAllText(FileName, json);
     }

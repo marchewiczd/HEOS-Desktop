@@ -1,6 +1,7 @@
 ﻿using Heos.Common.Extensions;
 using Heos.Console.Configuration;
 using Heos.Console.Helpers;
+using Heos.Console.Model;
 using static System.Console;
 
 namespace Heos.Console.Handlers;
@@ -10,27 +11,27 @@ public class CliHandler
     private readonly TcpHelper _tcpHelper = new();
     private readonly RequestMapper _requestMapper = new();
 
-    public void Handle(params string[] args)
+    public void Handle(CliArguments cliArguments)
     {
-        if (args.Length == 0)
+        if (string.IsNullOrEmpty(cliArguments.Command))
         {
             Help();
             return;
         }
 
-        if (args[0].StartsWith('-'))
+        if (cliArguments.Command.StartsWith('-'))
         {
-            HandleOptions(args[0]);
+            HandleOptions(cliArguments.Command);
             return;
         }
 
-        if (args[0].Equals("config"))
+        if (cliArguments.Command.Equals("config"))
         {
-            HandleConfig(args[1..]);
+            HandleConfig(cliArguments.Parameters);
             return;
         }
 
-        HandleCommand(args);
+        HandleCommand(cliArguments);
     }
 
     #region Options
@@ -92,20 +93,20 @@ public class CliHandler
 
     #region HEOS commands
 
-    private void HandleCommand(params string[] args)
+    private void HandleCommand(CliArguments cliArguments)
     {
-        switch (args[0].ToLowerInvariant())
+        switch (cliArguments.Command.ToLowerInvariant())
         {
             case "discover":
                 _tcpHelper.SsdpDiscover();
                 break;
 
             case "wake":
-                _tcpHelper.Wake(args);
+                _tcpHelper.Wake(cliArguments);
                 break;
 
             default:
-                _tcpHelper.HandleHeosRequest(args);
+                _tcpHelper.HandleHeosRequest(cliArguments);
                 break;
         }
     }
@@ -122,7 +123,7 @@ public class CliHandler
 
     #region Config
 
-    private void HandleConfig(params string[] args)
+    private void HandleConfig(List<string> args)
     {
         switch (args[0])
         {

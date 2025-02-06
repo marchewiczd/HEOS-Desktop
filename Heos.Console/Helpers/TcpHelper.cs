@@ -3,8 +3,7 @@ using Heos.API.Extensions;
 using Heos.API.Models.HEOS;
 using Heos.API.Models.HEOS.Player;
 using Heos.API.Services;
-using Heos.Console.Configuration;
-using Heos.Console.Extensions;
+using Heos.Console.Model;
 using static System.Console;
 
 namespace Heos.Console.Helpers;
@@ -22,31 +21,26 @@ public class TcpHelper
         }
     }
 
-    public void HandleHeosRequest(params string[] args)
+    public void HandleHeosRequest(CliArguments cliArguments)
     {
-        var parameters = args.Length > 3 ? args[2..] : null;
-        var request = _requestMapper.CreateRequestInstance(args);
-        Config.TryInject(ref args, "host");
-
-        var tcpService = new TcpService(args[1]);
+        var request = _requestMapper.CreateRequestInstance(cliArguments);
+        var tcpService = new TcpService(cliArguments.Host);
         WriteLine(tcpService.Send(request.Build()));
     }
 
-    public void Wake(params string[] args)
+    public void Wake(CliArguments cliArguments)
     {
-        if (args.Length == 0)
+        if (string.IsNullOrEmpty(cliArguments.Host))
         {
             WriteLine("IP was not provided!");
             return;
         }
 
         WriteLine("Connecting...");
-        Config.TryInject(ref args, "host");
+        var tcpService = new TcpService(cliArguments.Host);
+        WriteLine($"Connected to {cliArguments.Host}!");
 
-        var tcpService = new TcpService(args[1]);
-        WriteLine($"Connected to {args[1]}!");
-
-        var pid = GetPid(tcpService, args[1]);
+        var pid = GetPid(tcpService, cliArguments.Host);
         if (string.IsNullOrEmpty(pid))
         {
             return;

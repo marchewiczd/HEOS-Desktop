@@ -1,5 +1,7 @@
 ﻿using Heos.Console.Configuration;
 using Heos.Console.Handlers;
+using Heos.Console.Helpers;
+using Heos.Console.Model;
 
 namespace Heos.Console;
 
@@ -7,7 +9,10 @@ public class Program
 {
     private static void Main(string[] args)
     {
-        Config.Load();
-        new CliHandler().Handle(args);
+        var cliArguments = new CliArguments();
+        cliArguments.Map(args);
+
+        Config.Load(cliArguments);
+        new CliHandler().Handle(cliArguments);
     }
 }
