@@ -8,7 +8,7 @@ namespace Heos.Tools.XmlParser;
 
 public class SpecParser
 {
-    private readonly List<Request> _requests = [];
+    private readonly List<Command> _requests = [];
     private readonly int _maxDepth;
     private readonly string _filePath;
     private XmlDocument? _document;
@@ -19,7 +19,7 @@ public class SpecParser
         _maxDepth = maxDepth;
     }
 
-    public IEnumerable<Request> Parse()
+    public IEnumerable<Command> Parse()
     {
         _requests.Clear();
         _document = LoadXml(_filePath);
@@ -121,7 +121,7 @@ public class SpecParser
 
         if (!node.HasChildNodes)
         {
-            _requests.Add(new Request(endpoint, node.GetAttributeValue(AttributeName.Description) ?? ""));
+            _requests.Add(new Command(endpoint, node.GetAttributeValue(AttributeName.Description) ?? ""));
         }
     }
 
@@ -156,7 +156,7 @@ public class SpecParser
     private bool IsResponse(XmlNode node) =>
         RegexExpr.ResponseNodeRegex().Match(node.Name).Success;
 
-    private Request FindOrNew(string endpoint, string description)
+    private Command FindOrNew(string endpoint, string description)
     {
         var result = _requests.FirstOrDefault(x =>
             x.Endpoint.Equals(endpoint) && x.Description.Equals(description));
@@ -164,7 +164,7 @@ public class SpecParser
         if (result is not null)
             return result;
 
-        result = new Request(endpoint, description);
+        result = new Command(endpoint, description);
         _requests.Add(result);
 
         return result;
