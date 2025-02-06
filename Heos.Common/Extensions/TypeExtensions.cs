@@ -1,4 +1,4 @@
-﻿namespace Heos.Tools.ClassGenerator.Extensions;
+﻿namespace Heos.Common.Extensions;
 
 public static class TypeExtensions
 {

@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heos.Tools.XmlParser", "Heo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heos.Common", "Heos.Common\Heos.Common.csproj", "{315EBE2E-7244-433D-83F3-FFB5AEB4BE49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heos.Console", "Heos.Console\Heos.Console.csproj", "{0F4D799C-F46A-4F84-B2D1-5DA48B57A4E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{315EBE2E-7244-433D-83F3-FFB5AEB4BE49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{315EBE2E-7244-433D-83F3-FFB5AEB4BE49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{315EBE2E-7244-433D-83F3-FFB5AEB4BE49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F4D799C-F46A-4F84-B2D1-5DA48B57A4E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F4D799C-F46A-4F84-B2D1-5DA48B57A4E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F4D799C-F46A-4F84-B2D1-5DA48B57A4E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F4D799C-F46A-4F84-B2D1-5DA48B57A4E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

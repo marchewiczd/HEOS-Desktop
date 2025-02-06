@@ -1,5 +1,5 @@
-﻿using Heos.Tools.ClassGenerator.Constants;
-using Heos.Tools.ClassGenerator.Extensions;
+﻿using Heos.Common.Extensions;
+using Heos.Tools.ClassGenerator.Constants;
 using Heos.Tools.XmlParser.Models;
 
 namespace Heos.Tools.ClassGenerator.Generator;
